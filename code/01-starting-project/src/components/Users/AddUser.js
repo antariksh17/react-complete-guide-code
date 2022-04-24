@@ -30,7 +30,7 @@ const AddUser = props => {
                 message:'Please enter a  valid age(non-zero values)'
             })
         }
-        props.onAddUser(enteredAge, enteredAge);
+        props.onAddUser(enteredUsername, enteredAge);
 
         setEnteredUsername('');
         setEnteredAge('');
@@ -69,7 +69,7 @@ const AddUser = props => {
 
                 </label>
 
-                <input id="username" type="number" value={enteredAge} onChange={ageChangeHandler} />
+                <input id="age" type="number" value={enteredAge} onChange={ageChangeHandler} />
 
                 <Button type="submit"> Add User</Button>
             </form>
