@@ -1,13 +1,13 @@
 import React from 'react';
 
-import AddUser from "./components/UI/Users/AddUser"
+import AddUser from "./components/Users/AddUser"
 
 const  App= () => {
   return (
     <div>
 
       <AddUser />
-      
+
     </div>
   );
 }
