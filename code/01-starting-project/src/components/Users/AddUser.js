@@ -10,11 +10,19 @@ import classes from "./AddUser.module.css"
 const AddUser = props => {
 
     const [enteredUsername, setEnteredUsername]=useState('')
-    const [age, setEnteredAge]=useState('')
+    const [enteredAge, setEnteredAge]=useState('')
 
     const addUserHandler = (event) => {
 
         event.preventDefault();
+
+        if(enteredUsername.trim().length===0 || enteredAge.trim().length===0){
+            return;
+        } else if(parseInt(enteredAge)<1){
+            return;
+        }
+        setEnteredUsername('');
+        setEnteredAge('');
 
     };
 
@@ -37,14 +45,14 @@ const AddUser = props => {
 
                 </label>
 
-                <input id="username" type="text" onChange={usernameChangeHandler}/>
+                <input id="username" type="text" value={enteredUsername} onChange={usernameChangeHandler}/>
                 <label htmlFor="age">
 
                     Age(years)
 
                 </label>
 
-                <input id="username" type="number" onChange={ageChangeHandler} />
+                <input id="username" type="number" value={enteredAge} onChange={ageChangeHandler} />
 
                 <Button type="submit"> Add User</Button>
             </form>
