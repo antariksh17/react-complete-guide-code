@@ -4,7 +4,7 @@ import Header from './components/Layout/Header';
 
 
 
-function App() {
+const App= () =>  {
   return (
     <Fragment>
       
