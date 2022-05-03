@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState, useEffect, useCallback } from 'react';
 
 import MoviesList from './components/MoviesList';
 import './App.css';
@@ -24,7 +24,9 @@ function App() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] =useState(null)
 
-  async function fetchMoviesHandler() {
+
+
+  const fetchMoviesHandler= useCallback(async() => {
 
     // fetch('https://swapi.dev/api/films')
     //   .then(response => response.json())
@@ -62,8 +64,6 @@ function App() {
 
         const data= await response.json()
 
-        console.log(data)
-
 
         const transformedMovies= data.results.map((movieData) => {
 
@@ -82,8 +82,14 @@ function App() {
     }
 
     setIsLoading(false);
-  }
+  }, [])
+  // order has to be changed because the function is called before defining, this works in function () defnitions because of hoisting.
 
+  useEffect( () => {
+    
+    fetchMoviesHandler();
+
+  }, [fetchMoviesHandler]);
 
   let content = <p> Found no movies</p>
 
