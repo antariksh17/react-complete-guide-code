@@ -1,5 +1,5 @@
 import { Fragment, useState, useEffect, Component } from 'react';
-
+import UsersContext from './../store/users-context'
 import Users from './Users';
 import classes from './UserFinder.module.css';
 
@@ -8,8 +8,12 @@ const DUMMY_USERS = [
   { id: 'u2', name: 'Manuel' },
   { id: 'u3', name: 'Julie' },
 ];
+  // you can use UserContext.Consumer as they work in both class and func cmp
 
 class UserFinder extends Component {
+
+  static contextType = UsersContext ; // class based cmp can only  be connected with 1 context
+
   constructor() {
     super();
     this.state = {
@@ -20,7 +24,7 @@ class UserFinder extends Component {
 
   componentDidMount() {
     // Send http request...
-    this.setState({ filteredUsers: DUMMY_USERS });
+    this.setState({ filteredUsers: this.context.users });  // USE IT HERE
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -36,6 +40,7 @@ class UserFinder extends Component {
   searchChangeHandler(event) {
     this.setState({ searchTerm: event.target.value });
   }
+
 
   render() {
     return (
