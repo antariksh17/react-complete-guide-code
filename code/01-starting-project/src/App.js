@@ -22,6 +22,7 @@ function App() {
 
   const [movies, setMovies] =useState([]);
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] =useState(null)
 
   async function fetchMoviesHandler() {
 
@@ -42,26 +43,60 @@ function App() {
     //     setMovies(transformedMovies);
     //   })
 
+    /*
+        When working with .then() => Use catch to error handle
+        when working with  async-await => use try-catch to error handle
+        fetch() doesnt throw error for error status codes but only when data is not accessible by map, axios throws error for status code
+    */
 
   //async-await version
 
     setIsLoading(true);
+    setError(null);
+    try{
+      const response = await fetch('https://swapi.dev/api/films')
+        
+        if(!response.ok){
+          throw new Error('Something Went Wrong'); // or use response.status
+        }
 
-    const response = await fetch('https://swapi.dev/api/films')
-      const data= await response.json()
-      console.log(data)
-      const transformedMovies= data.results.map((movieData) => {
+        const data= await response.json()
 
-        return {
-          id: movieData.episode_id,
-          title: movieData.title,
-          openingText: movieData.opening_crawl,
-          releaseDate: movieData.release_date,
-        };
-      });
+        console.log(data)
 
-    setMovies(transformedMovies);
+
+        const transformedMovies= data.results.map((movieData) => {
+
+          return {
+            id: movieData.episode_id,
+            title: movieData.title,
+            openingText: movieData.opening_crawl,
+            releaseDate: movieData.release_date,
+          };
+        });
+
+      setMovies(transformedMovies);
+      setIsLoading(false);
+    } catch(error){
+      setError(error.message);
+    }
+
     setIsLoading(false);
+  }
+
+
+  let content = <p> Found no movies</p>
+
+  if(movies.length >0){
+
+    content = <MoviesList movies={movies} />
+  }
+
+  if(error){
+    content =<p>{error}</p>
+  } else if(isLoading){
+
+    content = <p>LOADING!!!</p>
   }
 
 
@@ -71,12 +106,21 @@ function App() {
         <button onClick={fetchMoviesHandler}>Fetch Movies</button>
       </section>
       <section>
-        {!isLoading && movies.length>0 && <MoviesList movies={movies} />}
-        {!isLoading && movies.length ===0 && <div>FOUND NO MOVIES!</div>} 
-        {isLoading && <p>LOADING!!!!</p>}
+        {content}
       </section>
     </React.Fragment>
   );
 }
 
 export default App;
+
+
+/*
+
+
+  {!isLoading && movies.length>0 && }
+        {!isLoading && movies.length ===0 && !error && <div>FOUND NO MOVIES!</div>} 
+        {isLoading && <p>LOADING!!!!</p>}
+        {!isLoading && error && <p>{error}</p>}
+
+*/
