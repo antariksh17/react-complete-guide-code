@@ -20,6 +20,10 @@ const SimpleInput = (props) => {
 
     event.preventDefault();
 
+    if( enteredName.trim() === ''){
+      return ;
+    }
+
     console.log(enteredName)
     console.log("ref", nameInputRef.current.value)
   // nameInputRef.current.value = ''
