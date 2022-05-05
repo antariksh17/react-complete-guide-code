@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect,useState} from 'react';
 
 
 // Using value once-> useref | using value multiple times for every keystroke + reset value-> use state
@@ -10,9 +10,22 @@ const SimpleInput = (props) => {
 
   const [enteredNameTouched, setEnteredNameTouched] =useState(false)
 
+  const [formIsValid, setFormIsValid] =useState(false);
+
+  
   const enteredNameIsValid = enteredName.trim() !== '';
 
   const nameInputIsInvalid = !enteredNameIsValid && enteredNameTouched;
+
+  useEffect( () => {
+
+    if(enteredNameIsValid){
+      setFormIsValid(true)
+    } else {
+      setFormIsValid(false)
+    }
+
+  },[enteredNameIsValid]); // USEFUL FOR HANDLING MULTIPLE INPUT VALIDITY STATES, ADD DEPENDENCY FOR EACH STATE
 
   const nameInputChangeHandler = (event) => {
     
@@ -33,8 +46,6 @@ const SimpleInput = (props) => {
       return;
     }
 
-
-
     setEnteredNameTouched(false);
     setEnteredName('');
    
@@ -50,7 +61,7 @@ const SimpleInput = (props) => {
         {nameInputIsInvalid && <p className={'error-text'}>NAME MUST NOT BE EMPTY</p>}
       </div>
       <div className="form-actions">
-        <button>Submit</button>
+        <button disabled={ !formIsValid }>Submit</button>
       </div>
     </form>
   );
