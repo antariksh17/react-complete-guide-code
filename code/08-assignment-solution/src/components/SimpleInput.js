@@ -14,9 +14,6 @@ const SimpleInput = (props) => {
 
   } =useInput((value) => value.trim()!== '')
 
-// const [enteredName, setEnteredName] = useState('');
-
-//  const [enteredNameTouched, setEnteredNameTouched] = useState(false);
 
 const {
   value: enteredEmail,
@@ -27,6 +24,16 @@ const {
   reset: resetEmailInput
 } = useInput(value => value.includes('@'));
 
+
+  let formIsValid = false;
+
+  if (enteredNameIsValid && enteredEmailIsValid) {
+    formIsValid = true;
+  }
+
+// const [enteredName, setEnteredName] = useState('');
+//  const [enteredNameTouched, setEnteredNameTouched] = useState(false);
+
 // const [enteredEmail, setEnteredEmail] = useState('');
 // const [enteredEmailTouched, setEnteredEmailTouched] = useState(false);
 
@@ -35,12 +42,6 @@ const {
 
 // const enteredEmailIsValid = enteredEmail.includes('@');
 //  const enteredEmailIsInvalid = !enteredEmailIsValid && enteredEmailTouched;
-
-  let formIsValid = false;
-
-  if (enteredNameIsValid && enteredEmailIsValid) {
-    formIsValid = true;
-  }
 
   // const nameInputChangeHandler = (event) => {
   //   setEnteredName(event.target.value);
