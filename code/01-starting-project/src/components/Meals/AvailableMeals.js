@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import Card from '../UI/Card';
 import MealItem from './MealItem/MealItem';
 import classes from './AvailableMeals.module.css';
@@ -30,7 +31,39 @@ const DUMMY_MEALS = [
 ];
 
 const AvailableMeals = () => {
-  const mealsList = DUMMY_MEALS.map((meal) => (
+
+  const [meals, setMeals] =useState([]);
+  const [isLoading , setIsLoading] =useState(true);
+
+  useEffect( () => {
+
+    const fetchMeals = async() => {
+
+      const response = await fetch('https://reactcg-http-default-rtdb.firebaseio.com/Meals.json')
+      const responseData = await response.json();
+
+      const loadedMeals = [];
+
+      for(const key in responseData){
+        loadedMeals.push({
+          id:key,
+          name: responseData[key].name,
+          description: responseData[key].description,
+          price: responseData[key].price,
+        })
+      }
+
+      setMeals(loadedMeals);
+      setIsLoading(false)
+
+    }
+    
+    fetchMeals();
+
+  },[])
+
+
+  const mealsList = meals.map((meal) => (
     <MealItem
       key={meal.id}
       id={meal.id}
@@ -40,6 +73,13 @@ const AvailableMeals = () => {
     />
   ));
 
+  if(isLoading){
+    return (
+    <section className={classes.MealsLoading}>
+      Loading
+    </section>
+    )
+  }
   return (
     <section className={classes.meals}>
       <Card>
