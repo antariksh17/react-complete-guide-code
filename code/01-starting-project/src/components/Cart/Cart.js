@@ -42,6 +42,17 @@ const Cart = (props) => {
     setIsCheckout(true);
   }
 
+  const submitOrderHandler =(userData) => {
+
+    fetch('https://reactcg-http-default-rtdb.firebaseio.com/orders.json', {
+      method: 'POST',
+      body: JSON.stringify({
+        user: userData,
+        orderedItem: cartCtx.items
+      })
+    })
+
+  }
   const modalActions = <div className={classes.actions}>
   <button className={classes['button--alt']} onClick={props.onClose}>
     Close
@@ -55,7 +66,7 @@ const Cart = (props) => {
         <span>Total Amount</span>
         <span>{totalAmount}</span>
       </div>
-      {isCheckout && <Checkout onCancel={props.onClose} />}
+      {isCheckout && <Checkout onCancel={props.onClose} onConfirm={submitOrderHandler} />}
       {!isCheckout && modalActions}
       
     </Modal>
