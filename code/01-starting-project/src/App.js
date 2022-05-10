@@ -22,7 +22,7 @@ function App() {
   const dispatch = useDispatch();
   
   useEffect( () => {
-    dispatch(fetchCartData)
+    dispatch(fetchCartData())
 
   }, [dispatch]);
   
@@ -35,7 +35,11 @@ function App() {
       return;
     }
     
-    dispatch(sendCartData(cart))
+    if(cart.changed){
+      
+      dispatch(sendCartData(cart))
+
+    }
 
 
   },[cart, dispatch]);
