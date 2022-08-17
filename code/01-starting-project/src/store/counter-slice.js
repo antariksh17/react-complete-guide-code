@@ -1,4 +1,4 @@
-import {createSlice} from 'reduxjs/toolkit';
+import {createSlice} from '@reduxjs/toolkit';
 
 
 
@@ -25,4 +25,4 @@ const counterSlice = createSlice({
 
 export const counterActions = counterSlice.actions
 
-export default counterSlice;
+export default counterSlice.reducer;
